@@ -1,0 +1,29 @@
+Proyecto Estructuras - Segunda entrega
+Se envió la segunda versión optimizando tiempos.
+Ejemplo:
+Cargando el archivo na_arms.fa ( 30.58s)
+Encode del archivo na_arms.fa ( 31.76s)
+Decode del archivo que acaba de hacer el comando encode (1min 22.85s)
+
+-------------------------------------------------------------------------------
+
+Proyecto Estructuras - Tercera entrega
+Toma de tiempos:
+
+shortest_path de la secuencia 3R 12X coverage (Oct 2000) del archivo na_arms.fa 
+Datos ingresados:	3R 12X coverage (Oct 2000) 0 59 30000 0
+Tiempo:		( 7.31s)
+remote_path de la secuencia 3R 12X coverage (Oct 2000) del archivo na_arms.fa 
+Datos ingresados:	3R 12X coverage (Oct 2000) 0 59 
+Tiempo:		( 1min 49.40s)
+remote_path de la secuencia Mit del archivo yeast.fa 
+Datos ingresados:	Mit 0 10
+Tiempo:		( 0.49s)
+
+
+
+Repositorios del proyecto
+
+https://github.com/JuanPabloRN30/Primer-Proyecto-Estructuras
+https://github.com/JuanPabloRN30/Segundo-Proyecto-Estructuras
+https://github.com/JuanPabloRN30/Tercer-Proyecto-Estructuras

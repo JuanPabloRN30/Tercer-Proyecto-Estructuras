@@ -278,6 +278,7 @@ int main()
                     sequenceDescription = aux + " " +sequenceDescription ;
                 }
                 sequenceDescription.erase(sequenceDescription.size()-1);
+                cout << sequenceDescription << "   "<< positions[0] << " " << positions[1] << endl;
                 remote_base(codigo,sequenceDescription,positions[0],positions[1]);
             }
         }
