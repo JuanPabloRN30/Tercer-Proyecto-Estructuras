@@ -57,3 +57,21 @@ void decode()
     cout << "El comando debe cargar en memoria las secuencias contenidas en el archivo binario <filename.fabin>," << endl;
     cout << "que contiene una codificacion Huffman de un conjunto de secuencias." << endl;
 }
+
+void shortest_path()
+{
+    cout << "Escriba el comando shortest_path <sequence_description> <i> <j> <x> <y>" << endl;
+    cout << "El comando debe imprimir en pantalla la secuencia de vertices del grafo que describen la ruta " << endl;
+    cout << "mas corta entre la base ubicada en la posicion [i,j] de la matriz de la secuencia <sequence_description> " << endl;
+    cout << "y la base ubicada en la posicion [x,y] de la misma matriz.Asi mismo, debe imprimir el costo total de la " << endl;
+    cout << "ruta, teniendo en cuenta el peso que tiene cada conexion entre bases." << endl;
+}
+
+void remote_base()
+{
+    cout << "Escriba el comando remote_base <sequence_description> <i> <j>" << endl;
+    cout << "Para la base ubicada en la posición [i,j] de la matriz de la secuencia <sequence_description>, " << endl;
+    cout << "el comando busca la ubicacion de la misma base (misma letra) mas lejana dentro de la matriz. Para esta " << endl;
+    cout << "base remota, el comando debe imprimir en pantalla su ubicacion, la secuencia de vertices que describen la " << endl;
+    cout << "ruta entre la base origen y la base remota, y el costo total de la ruta." << endl;
+}

@@ -1,11 +1,11 @@
 #include<iostream>
-#include<bitset>
 #include<math.h>
+#include <stdlib.h>
 #include<vector>
-#include<sstream>
-#include<stdlib.h>
+#include<algorithm>
 #include<map>
 #include<queue>
+#include<sstream>
 #include<fstream>
 #include "CodigoGenetico.h"
 #include "Menu.h"
@@ -126,6 +126,16 @@ void decode(CodigoGenetico &codigo, string fileName)
     }
 }
 
+void shortest_path(CodigoGenetico &codigo, string sequence_Description, int i , int j , int x , int y)
+{
+    codigo.shortest_path(sequence_Description,i,j,x,y);
+}
+
+void remote_base(CodigoGenetico &codigo, string sequence_Description, int i , int j)
+{
+    codigo.remote_base(sequence_Description,i,j);
+}
+
 int main()
 {
     CodigoGenetico codigo;
@@ -157,6 +167,10 @@ int main()
                 encode();
             else if(opc2 == "decode")
                 decode();
+            else if(opc2 == "shortest_path")
+                shortest_path();
+            else if(opc2 == "remote_base")
+                remote_base();
         }
         else
         {
@@ -216,6 +230,55 @@ int main()
                 cin.ignore();
                 getline(cin,fileName);
                 decode(codigo,fileName);
+            }
+            else if(comando == "shortest_path")
+            {
+                string line;
+                cin.ignore();
+                getline(cin,line);
+                reverse(line.begin(),line.end());
+                stringstream ss(line);
+                vector < int > positions(4);
+                string aux = "",sequenceDescription="";
+                for(int i = 3 ; i >= 0 ; i--)
+                {
+                    ss >> aux;
+                    reverse(aux.begin(),aux.end());
+                    stringstream ss1(aux);
+                    ss1 >> positions[i];
+                }
+                while(ss >> aux)
+                {
+                    reverse(aux.begin(),aux.end());
+                    sequenceDescription = aux + " " +sequenceDescription ;
+                }
+                sequenceDescription.erase(sequenceDescription.size()-1);
+                shortest_path(codigo,sequenceDescription,positions[0],positions[1],positions[2],positions[3]);
+            }
+            else if(comando == "remote_base")
+            {
+                string line;
+                cin.ignore();
+                getline(cin,line);
+                reverse(line.begin(),line.end());
+                stringstream ss(line);
+                vector < int > positions(3);
+                string aux = "",sequenceDescription="";
+                for(int i = 1 ; i >= 0 ; i--)
+                {
+                    ss >> aux;
+                    reverse(aux.begin(),aux.end());
+                    stringstream ss1(aux);
+                    ss1 >> positions[i];
+                }
+                while(ss >> aux)
+                {
+                    reverse(aux.begin(),aux.end());
+                    sequenceDescription = aux + " " +sequenceDescription ;
+                }
+                sequenceDescription.erase(sequenceDescription.size()-1);
+                cout << sequenceDescription << " " << positions[0] << " " << positions[1] << endl;
+                //remote_base(codigo,sequenceDescription,positions[0],positions[1]);
             }
         }
     }

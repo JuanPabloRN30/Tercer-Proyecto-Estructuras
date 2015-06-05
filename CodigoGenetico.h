@@ -43,6 +43,8 @@ class CodigoGenetico {
     ArbolHuffman* generarArbol();
     bool encode( string );
     bool decode( string );
+    bool shortest_path(string , int , int , int , int );
+    bool remote_base(string , int , int );
   protected:
     vector < Cadena > listaCadenas;
     map < char , long long > basesTotales;
