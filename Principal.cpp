@@ -5,6 +5,7 @@
 #include<algorithm>
 #include<map>
 #include<queue>
+#include<stack>
 #include<sstream>
 #include<fstream>
 #include "CodigoGenetico.h"
@@ -277,8 +278,7 @@ int main()
                     sequenceDescription = aux + " " +sequenceDescription ;
                 }
                 sequenceDescription.erase(sequenceDescription.size()-1);
-                cout << sequenceDescription << " " << positions[0] << " " << positions[1] << endl;
-                //remote_base(codigo,sequenceDescription,positions[0],positions[1]);
+                remote_base(codigo,sequenceDescription,positions[0],positions[1]);
             }
         }
     }

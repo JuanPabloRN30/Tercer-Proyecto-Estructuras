@@ -45,6 +45,8 @@ class CodigoGenetico {
     bool decode( string );
     bool shortest_path(string , int , int , int , int );
     bool remote_base(string , int , int );
+    void ruta(vector < vector < pair < int , int > > > & , vector < vector < char > > & , int , int , int , int );
+    double dijkstra(vector < vector < char > > &, int , int , int , int , int , int );
   protected:
     vector < Cadena > listaCadenas;
     map < char , long long > basesTotales;

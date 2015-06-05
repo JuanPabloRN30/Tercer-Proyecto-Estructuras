@@ -422,24 +422,31 @@ bool CodigoGenetico::decode(string fileName)
     return true;
 }
 
-void ruta(vector < vector < pair < int , int > > > padres, vector < vector < char > > graph , int x , int y , int i , int j)
+void CodigoGenetico::ruta(vector < vector < pair < int , int > > > &padres, vector < vector < char > > &graph , int x , int y , int i , int j)
 {
-  /*  while(x != i || y != j)
+    int temp;
+    stack < pair < int , int > > s;
+    while(x != i || y != j)
     {
-        printf("%c\t[%d , %d]\n",graph[x][y],x,y);
-        x = padres[x][y].first;
+        s.push(make_pair(x,y));
+        temp = padres[x][y].first;
         y = padres[x][y].second;
-    }*/
-   /* if(x != i || y != j)
-    {
-        ruta(padres,graph,padres[x][y].first, padres[x][y].second, i , j);
+        x = temp;
+        if(x == i && y == j)
+        {
+            s.push(make_pair(x,y));
+            break;
+        }
     }
-
-    printf("%c\t[%d , %d]\n",graph[x][y],x,y);*/
-
+    while(!s.empty())
+    {
+        pair < int , int > actual = s.top();
+        s.pop();
+        printf("%c\t[%d , %d]\n",graph[actual.first][actual.second],actual.first,actual.second);
+    }
 }
 
-double dijkstra(vector < vector < char > > graph, int i , int j, int x , int y, int nRow, int nCol)
+double CodigoGenetico::dijkstra(vector < vector < char > > &graph, int i , int j, int x , int y, int nRow, int nCol)
 {
     double INF = 1e7;
     int dx[] = {-1,0, 0,1};
@@ -449,7 +456,6 @@ double dijkstra(vector < vector < char > > graph, int i , int j, int x , int y, 
     vector< vector < pair < int , int > > > padres(nRow, vector < pair < int , int > > (nCol,make_pair(-1,-1)));
     cola.push(make_pair(0.0,make_pair(i,j)));
     dists[i][j] = 0;
-    double cont = 0.0;
     bool bandera = false;
     while(!cola.empty() && !bandera)
     {
@@ -562,8 +568,7 @@ bool CodigoGenetico::remote_base(string sequence_Description, int i , int j)
             nRow++;
         long long nCol = cad->getIdent();
         string sequence = cad->getCadena();
-        vector < vector < int > > graph(nRow, vector < int > (nCol));
-        vector < vector < double > > graph1(nRow, vector < double > (nCol));
+        vector < vector < char > > graph(nRow, vector < char > (nCol));
         int contRow, contCol;
         contRow = 0;
         contCol = 0;
@@ -584,7 +589,7 @@ bool CodigoGenetico::remote_base(string sequence_Description, int i , int j)
         {
             for(int k = contCol ; k <= ident ; k++)
             {
-                graph[contRow][k] = 2;
+                graph[contRow][k] = '@';
             }
         }
         if((i >= 0 && i < nRow) && (j >= 0 && j < nCol))
@@ -592,8 +597,8 @@ bool CodigoGenetico::remote_base(string sequence_Description, int i , int j)
             double INF = 1e7;
             int dx[] = {-1,0, 0,1};
             int dy[] = { 0,1,-1,0};
-            priority_queue<pair < double , pair < int, int > > , vector<pair < double , pair < int , int > > > , greater<pair < double , pair < int , int > > > > cola;
-            vector< vector < double > > dists(nRow, vector < double > (nCol,INF));
+            priority_queue<pair < int , pair < int, int > > , vector<pair < int , pair < int , int > > > , greater<pair < int , pair < int , int > > > > cola;
+            vector< vector < int > > dists(nRow, vector < int > (nCol,INF));
             vector< vector < pair < int , int > > > padres(nRow, vector < pair < int , int > > (nCol,make_pair(-1,-1)));
             cola.push(make_pair(0.0,make_pair(i,j)));
             dists[i][j] = 0;
@@ -601,7 +606,7 @@ bool CodigoGenetico::remote_base(string sequence_Description, int i , int j)
             bool bandera = false;
             while(!cola.empty() && !bandera)
             {
-                pair < double , pair < int , int > >  actual = cola.top();
+                pair < int , pair < int , int > >  actual = cola.top();
                 cola.pop();
                 int actualI = actual.second.first;
                 int actualJ = actual.second.second;
@@ -615,20 +620,33 @@ bool CodigoGenetico::remote_base(string sequence_Description, int i , int j)
                         int currentJ = actualJ + dy[k];
                         if((currentI >= 0 && currentI < nRow) && (currentJ >= 0 && currentJ < nCol))
                         {
-                            double costoArista = 1.0/(1.0 + (double)abs( graph[actualI][actualJ] - graph[currentI][currentJ] ));
+                            int costoArista = 1;
                             if( costoArista + dists[actualI][actualJ] < dists[currentI][currentJ] && graph[currentI][currentJ] != 2 )
                             {
                                 dists[currentI][currentJ] = costoArista + dists[actualI][actualJ];
                                 padres[currentI][currentJ] = make_pair(actualI,actualJ);
-                                cola.push(pair < double , pair < int , int > > (dists[currentI][currentJ], make_pair(currentI,currentJ)));
+                                cola.push(pair < int , pair < int , int > > (dists[currentI][currentJ], make_pair(currentI,currentJ)));
                             }
                         }
                     }
                 }
             }
-            /* printf("The shortest path between base in [ %d , %d ] and base in [ %d , %d ] is:\n",i,j,x,y);
-             ruta(padres,graph,x,y,i,j);
-             printf("The total cost of the path is: %lf\n",dists[x][y]);*/
+            int may = -1;
+            pair < int , int > result;
+            for(int a = 0 ; a < nRow ; a++)
+            {
+                for(int b = 0 ; b < nCol ; b++)
+                {
+                    if((graph[a][b] == graph[i][j]) && (i != a && j != b) && dists[a][b] > may)
+                    {
+                        result = make_pair(a,b);
+                        may = dists[a][b];
+                    }
+                }
+            }
+            printf("The remote base is located in [ %d , %d ], and the path between base in [ %d , %d ] and base in [ %d , %d ] is:\n",result.first,result.second,i,j,result.first,result.second);
+            double res = dijkstra(graph,i,j,result.first,result.second,nRow,nCol);
+            printf("The total cost of the path is: %lf\n",res);
         }
         else
         {
